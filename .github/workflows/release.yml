@@ -30,7 +30,7 @@ jobs:
         with:
           components: llvm-tools
       - name: Compile and release
-        run: script/build_release_package.sh
+        run: ./scripts/build_release_package.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUSTTARGET: ${{ matrix.target }}
