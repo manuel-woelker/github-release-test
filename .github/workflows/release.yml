@@ -29,6 +29,8 @@ jobs:
         with:
           components: llvm-tools
           target: ${{ matrix.target }}
+      - name: Set up MinGW
+        uses: egor-tensin/setup-mingw@v2
       - name: Compile and release
         run: ./scripts/build_release_package.sh
         env:
