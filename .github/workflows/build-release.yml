@@ -40,12 +40,12 @@ jobs:
         uses: egor-tensin/setup-mingw@v2
         if: contains(matrix.target, 'windows')
       - name: Compile and release
-        run: ./scripts/build_release_package.sh
+        run: ./scripts/build_release_package.sh ${{github.event.release.tag_name || inputs.release_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUSTTARGET: ${{ matrix.target }}
       - name: "Upload release artifact"
         run: |
-          gh release upload ${{github.event.release.tag_name || inputs.release_tag }} github-release-test-${{ matrix.target }}.${{ matrix.archive }}
+          gh release upload ${{github.event.release.tag_name || inputs.release_tag }} github-release-test-${{github.event.release.tag_name || inputs.release_tag }}-${{ matrix.target }}.${{ matrix.archive }} --clobber
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
