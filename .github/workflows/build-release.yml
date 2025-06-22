@@ -38,6 +38,7 @@ jobs:
           target: ${{ matrix.target }}
       - name: Set up MinGW
         uses: egor-tensin/setup-mingw@v2
+        if: contains(matrix.target, 'windows')
       - name: Compile and release
         run: ./scripts/build_release_package.sh
         env:
