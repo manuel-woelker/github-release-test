@@ -1,0 +1,43 @@
+# https://github.com/marketplace/actions/rust-release-binary
+name: Build and upload relase
+
+on:
+  release:
+    types: [ created ]
+  workflow_dispatch:
+
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    name: release ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+#          - target: x86_64-pc-windows-gnu
+          - target: x86_64-pc-windows-msvc
+            archive: zip
+#          - target: x86_64-unknown-linux-musl
+#            archive: tar.gz tar.xz tar.zst
+#          - target: x86_64-apple-darwin
+#            archive: zip
+    steps:
+      - uses: actions/checkout@master
+      - uses: dtolnay/rust-toolchain@1.86.0
+        with:
+          components: llvm-tools
+      - name: Compile and release
+        run: script/build_release_package.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          RUSTTARGET: ${{ matrix.target }}
+      - name: "Upload release artifact"
+        run: |
+#          gh release upload ${{github.event.release.tag_name}} feedmd-${{ matrix.target }}.${{ matrix.archive }}
+          gh release upload v0.1.0 github-release-test-${{ matrix.target }}.${{ matrix.archive }}
+        env:
+          GITHUB_TOKEN: ${{ github.TOKEN }}
