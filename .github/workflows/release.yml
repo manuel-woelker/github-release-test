@@ -29,6 +29,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.86.0
         with:
           components: llvm-tools
+          target: ${{ matrix.target }}
       - name: Compile and release
         run: ./scripts/build_release_package.sh
         env:
