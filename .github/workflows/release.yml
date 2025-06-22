@@ -28,6 +28,8 @@ jobs:
     #            archive: zip
     steps:
       - uses: actions/checkout@master
+        with:
+          ref: ${{github.event.release.tag_name || inputs.release_tag}}
       - uses: dtolnay/rust-toolchain@1.86.0
         with:
           components: llvm-tools
@@ -41,6 +43,6 @@ jobs:
           RUSTTARGET: ${{ matrix.target }}
       - name: "Upload release artifact"
         run: |
-          gh release upload ${{github.event.release.tag_name || release_tag }} github-release-test-${{ matrix.target }}.${{ matrix.archive }}
+          gh release upload ${{github.event.release.tag_name || inputs.release_tag }} github-release-test-${{ matrix.target }}.${{ matrix.archive }}
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
