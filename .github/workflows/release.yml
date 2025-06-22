@@ -38,6 +38,6 @@ jobs:
           RUSTTARGET: ${{ matrix.target }}
       - name: "Upload release artifact"
         run: |
-          gh release upload v0.1.0 github-release-test-${{ matrix.target }}.${{ matrix.archive }}
+          gh release upload 0.1.0 github-release-test-${{ matrix.target }}.${{ matrix.archive }}
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
