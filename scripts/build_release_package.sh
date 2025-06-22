@@ -10,6 +10,7 @@ TARGET=${RUSTTARGET:-x86_64-pc-windows-msvc}
 
 echo "Building hyperlit binary"
 echo "Target: $TARGET"
+echo "Tag/Version: $VERSION"
 
 cargo build --release --target $TARGET --frozen
 
